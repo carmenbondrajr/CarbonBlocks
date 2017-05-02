@@ -12,8 +12,10 @@ public class Constants {
     public static int SCREEN_HEIGHT;
 
     public static Context CURRENT_CONTEXT;
+    public static int MAX_FPS = 30;
 
     // GAME CONSTANTS
     public static int BACKGROUND_COLOR = Color.rgb(50, 50, 50);
     public static int BALL_COLOR = Color.RED;
+    public static int BALL_VELOCITY = 10;
 }

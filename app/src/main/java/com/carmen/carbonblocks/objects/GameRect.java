@@ -26,7 +26,7 @@ public class GameRect implements GameObject {
         canvas.drawRect(rectangle, paint);
     }
 
-    public boolean ballCollides(GameBall ball) {
+    public boolean ballCollides(Ball ball) {
         return false;
     }
 

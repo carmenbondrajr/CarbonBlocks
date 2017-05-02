@@ -8,7 +8,6 @@ import android.view.SurfaceHolder;
  */
 
 public class MainThread extends Thread {
-    public static final int MAX_FPS = 30;
     private double avgFps;
     private SurfaceHolder surfaceHolder;
     private GameView gameView;
@@ -52,7 +51,7 @@ public class MainThread extends Thread {
         }
     }
     private void maintainFps(long startTime) {
-        long targetTime = 1000/MAX_FPS;
+        long targetTime = 1000/Constants.MAX_FPS;
 
         long timeMillis = (System.nanoTime() - startTime) / 1000000;
         long waitTime = targetTime - timeMillis;

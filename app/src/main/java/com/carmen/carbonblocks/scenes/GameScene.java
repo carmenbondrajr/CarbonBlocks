@@ -12,18 +12,18 @@ import com.carmen.carbonblocks.objects.*;
  */
 
 public class GameScene implements Scene {
+    private GameRect bottomBar;
     private Ball ball;
     private Tracer tracer;
-    private GameRect bottomBar;
 
     private boolean activeVolley = false;
     private boolean isDragging = false;
     private double dx, dy, theta;
 
     public GameScene() {
-        ball = new Ball(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 250, 30, Constants.BALL_COLOR);
         bottomBar = new GameRect(0, Constants.SCREEN_HEIGHT - 15, Constants.SCREEN_WIDTH, 30, Color.CYAN);
-        tracer = new Tracer(ball.getX(), ball.getY(), 10, Color.GRAY);
+        ball = new Ball(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 250, 30, Constants.BALL_COLOR, bottomBar);
+        tracer = new Tracer(ball.getCircle().getX(), ball.getCircle().getY(), 10, Color.GRAY);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class GameScene implements Scene {
     public void receiveTouch(MotionEvent event) {
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if(!activeVolley) {
+                if(!activeVolley && isTouchingBall(event)) {
                     isDragging = true;
                 } else {
                     reset();
@@ -74,8 +74,8 @@ public class GameScene implements Scene {
     }
 
     private void reset() {
-        ball.setX(Constants.SCREEN_WIDTH / 2);
-        ball.setY(Constants.SCREEN_HEIGHT - 250);
+        ball.getCircle().setX(Constants.SCREEN_WIDTH / 2);
+        ball.getCircle().setY(Constants.SCREEN_HEIGHT - 250);
         ball.setVx(0);
         ball.setVy(0);
         activeVolley = false;
@@ -84,8 +84,12 @@ public class GameScene implements Scene {
     }
 
     private double calculateTheta(MotionEvent e) {
-        dx = e.getX() - ball.getX();
-        dy = e.getY() - ball.getY();
+        dx = e.getX() - ball.getCircle().getX();
+        dy = e.getY() - ball.getCircle().getY();
         return Math.atan(dy/dx);
+    }
+
+    private boolean isTouchingBall(MotionEvent e) {
+        return ball.getCircle().contains((int)e.getX(), (int)e.getY());
     }
 }

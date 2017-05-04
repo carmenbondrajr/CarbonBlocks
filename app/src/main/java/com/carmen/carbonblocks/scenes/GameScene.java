@@ -15,15 +15,19 @@ public class GameScene implements Scene {
     private GameRect bottomBar;
     private Ball ball;
     private Tracer tracer;
+    private BlockManager blockManager;
 
     private boolean activeVolley = false;
     private boolean isDragging = false;
     private double dx, dy, theta;
 
     public GameScene() {
-        bottomBar = new GameRect(0, Constants.SCREEN_HEIGHT - 15, Constants.SCREEN_WIDTH, 30, Color.CYAN);
-        ball = new Ball(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 250, 30, Constants.BALL_COLOR, bottomBar);
+        bottomBar = new GameRect(0, Constants.SCREEN_HEIGHT - 15, Constants.SCREEN_WIDTH, Constants.BALL_SIZE, Color.CYAN);
+        blockManager = new BlockManager();
+        ball = new Ball(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 250, 30, Constants.BALL_COLOR, bottomBar, blockManager);
         tracer = new Tracer(ball.getCircle().getX(), ball.getCircle().getY(), 10, Color.GRAY);
+
+        blockManager.generateBlocks();
     }
 
     @Override
@@ -38,6 +42,7 @@ public class GameScene implements Scene {
         canvas.drawColor(Constants.BACKGROUND_COLOR);
         bottomBar.draw(canvas);
         ball.draw(canvas);
+        blockManager.draw(canvas);
         if(isDragging) {
             tracer.draw(canvas);
         }

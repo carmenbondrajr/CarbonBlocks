@@ -1,11 +1,14 @@
 package com.carmen.carbonblocks.objects;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
+
 /**
  * Created by carmen on 5/3/2017.
  */
 
-public class Circle {
-    public int x, y, radius;
+public class Circle implements GameObject {
+    public int x, y, radius, color;
 
     public int getRadius() { return this.radius; }
     public int getX() { return this.x; }
@@ -16,10 +19,11 @@ public class Circle {
     public void increaseY(int dy) { this.y += dy; }
 
 
-    public Circle(int x, int y, int radius) {
+    public Circle(int x, int y, int radius, int color) {
         this.x = x;
         this.y = y;
         this.radius = radius;
+        this.color = color;
     }
 
     public boolean contains(int xp, int yp) {
@@ -28,5 +32,17 @@ public class Circle {
         );
 
         return d < radius;
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        Paint paint = new Paint();
+        paint.setColor(color);
+        canvas.drawCircle(x, y, radius, paint);
+    }
+
+    @Override
+    public void update() {
+
     }
 }

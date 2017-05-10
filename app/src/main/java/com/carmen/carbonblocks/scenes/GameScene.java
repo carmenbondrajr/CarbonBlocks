@@ -19,12 +19,12 @@ public class GameScene implements Scene {
 
     private boolean activeVolley = false;
     private boolean isDragging = false;
-    private double dx, dy, theta;
+    private float dx, dy, theta;
 
     public GameScene() {
         bottomBar = new GameRect(0, Constants.SCREEN_HEIGHT - 15, Constants.SCREEN_WIDTH, Constants.BALL_SIZE, Color.CYAN);
         blockManager = new BlockManager();
-        ball = new Ball(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 250, 30, Constants.BALL_COLOR, bottomBar, blockManager);
+        ball = new Ball(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 150, Constants.BALL_SIZE, Constants.BALL_COLOR, bottomBar, blockManager);
         tracer = new Tracer(ball.getCircle().getX(), ball.getCircle().getY(), 10, Color.GRAY);
 
         blockManager.generateBlocks();
@@ -88,10 +88,10 @@ public class GameScene implements Scene {
         theta = 0;
     }
 
-    private double calculateTheta(MotionEvent e) {
+    private float calculateTheta(MotionEvent e) {
         dx = e.getX() - ball.getCircle().getX();
         dy = e.getY() - ball.getCircle().getY();
-        return Math.atan(dy/dx);
+        return (float)Math.atan(dy/dx);
     }
 
     private boolean isTouchingBall(MotionEvent e) {

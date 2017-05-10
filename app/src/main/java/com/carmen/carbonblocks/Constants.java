@@ -17,9 +17,9 @@ public class Constants {
     // GAME CONSTANTS
     public static int BACKGROUND_COLOR = Color.rgb(50, 50, 50);
 
-    public static int BALL_SIZE = 30;
+    public static int BALL_SIZE = 12;
     public static int BALL_COLOR = Color.RED;
-    public static int BALL_VELOCITY = 50;
+    public static float BALL_VELOCITY = 40;
 
     public static int BLOCK_SIZE = 120;
 }

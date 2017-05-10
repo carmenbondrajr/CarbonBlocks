@@ -9,16 +9,16 @@ import android.graphics.Rect;
  */
 
 public class Tracer implements GameObject {
-    private int ballX, ballY;
-    private int x, y;
+    private float ballX, ballY;
+    private float x, y;
     private int color;
     private double rotate;
 
     public void setRotate(double rotate) { this.rotate = rotate; }
-    public void setX(int x) { this.x = x; }
-    public void setY(int y) { this.y = y; }
+    public void setX(float x) { this.x = x; }
+    public void setY(float y) { this.y = y; }
 
-    public Tracer(int ballX, int ballY, int thickness, int color) {
+    public Tracer(float ballX, float ballY, int thickness, int color) {
         this.ballX = ballX;
         this.ballY = ballY;
         this.color = color;

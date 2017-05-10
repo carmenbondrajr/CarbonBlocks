@@ -8,25 +8,27 @@ import android.graphics.Paint;
  */
 
 public class Circle implements GameObject {
-    public int x, y, radius, color;
+    public float x, y, radius;
+    public int color;
 
-    public int getRadius() { return this.radius; }
-    public int getX() { return this.x; }
-    public int getY() { return this.y; }
+    public float getRadius() { return this.radius; }
+    public float getX() { return this.x; }
+    public float getY() { return this.y; }
     public void setX(int x) { this.x = x; }
     public void setY(int y) { this.y = y; }
-    public void increaseX(int dx) { this.x += dx; }
-    public void increaseY(int dy) { this.y += dy; }
+    public void increaseX(float dx) { this.x += dx; }
+    public void increaseY(float dy) { this.y += dy; }
 
+    public void setColor(int color) { this.color = color; }
 
-    public Circle(int x, int y, int radius, int color) {
+    public Circle(float x, float y, float radius, int color) {
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.color = color;
     }
 
-    public boolean contains(int xp, int yp) {
+    public boolean contains(float xp, float yp) {
         double d = Math.sqrt(
                 Math.pow(xp - x, 2) + Math.pow(yp - y, 2)
         );

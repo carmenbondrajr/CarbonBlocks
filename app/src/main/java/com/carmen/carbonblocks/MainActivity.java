@@ -20,6 +20,8 @@ public class MainActivity extends Activity {
         Constants.SCREEN_HEIGHT = dm.heightPixels;
         Constants.SCREEN_WIDTH = dm.widthPixels;
 
+        Constants.BALL_START_Y = Constants.SCREEN_HEIGHT - 200;
+
         setContentView(new GameView(this));
     }
 }

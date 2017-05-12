@@ -22,9 +22,9 @@ public class GameScene implements Scene {
     private float dx, dy, theta;
 
     public GameScene() {
-        bottomBar = new GameRect(0, Constants.SCREEN_HEIGHT - 15, Constants.SCREEN_WIDTH, Constants.BALL_SIZE, Color.CYAN);
+        bottomBar = new GameRect(0, Constants.BALL_START_Y + Constants.BALL_SIZE + 1, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Color.CYAN);
         blockManager = new BlockManager();
-        ball = new Ball(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 150, Constants.BALL_SIZE, Constants.BALL_COLOR, bottomBar, blockManager);
+        ball = new Ball(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 200, Constants.BALL_SIZE, Constants.BALL_COLOR, bottomBar, blockManager);
         tracer = new Tracer(ball.getCircle().getX(), ball.getCircle().getY(), 10, Color.GRAY);
 
         blockManager.generateBlocks();
@@ -80,7 +80,7 @@ public class GameScene implements Scene {
 
     private void reset() {
         ball.getCircle().setX(Constants.SCREEN_WIDTH / 2);
-        ball.getCircle().setY(Constants.SCREEN_HEIGHT - 250);
+        ball.getCircle().setY(Constants.BALL_START_Y);
         ball.setVx(0);
         ball.setVy(0);
         activeVolley = false;

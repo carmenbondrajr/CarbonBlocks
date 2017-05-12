@@ -22,7 +22,7 @@ public class GameScene implements Scene {
     private float dx, dy, theta;
 
     public GameScene() {
-        bottomBar = new GameRect(0, Constants.BALL_START_Y + Constants.BALL_SIZE + 1, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Color.CYAN);
+        bottomBar = new GameRect(0, Constants.BALL_START_Y + Constants.BALL_SIZE + 1, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Constants.BOTTOM_BAR_COLOR);
         blockManager = new BlockManager();
         ball = new Ball(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 200, Constants.BALL_SIZE, Constants.BALL_COLOR, bottomBar, blockManager);
         tracer = new Tracer(ball.getCircle().getX(), ball.getCircle().getY(), 10, Color.GRAY);

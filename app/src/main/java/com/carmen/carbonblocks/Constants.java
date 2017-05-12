@@ -15,12 +15,13 @@ public class Constants {
     public static int MAX_FPS = 30;
 
     // GAME CONSTANTS
-    public static int BACKGROUND_COLOR = Color.rgb(50, 50, 50);
+    public static int BACKGROUND_COLOR = Color.rgb(30, 30, 30);
+    public static int BOTTOM_BAR_COLOR = Color.rgb(45, 45, 45);
 
     public static int BALL_SIZE = 18;
     public static int BALL_COLOR = Color.RED;
     public static float BALL_VELOCITY = 40;
     public static int BALL_START_Y;
 
-    public static int BLOCK_SIZE = 120;
+    public static int BLOCK_SIZE = 100;
 }

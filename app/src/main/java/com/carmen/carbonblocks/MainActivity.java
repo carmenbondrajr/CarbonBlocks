@@ -21,6 +21,10 @@ public class MainActivity extends Activity {
         Constants.SCREEN_WIDTH = dm.widthPixels;
 
         Constants.BALL_START_Y = Constants.SCREEN_HEIGHT - 200;
+        Constants.BLOCK_START_X = (Constants.SCREEN_WIDTH -
+                ((Constants.BLOCKS_PER_ROW * Constants.BLOCK_SIZE) +
+                ((Constants.BLOCKS_PER_ROW - 1) * Constants.BLOCK_GAP)))
+                / 2;
 
         setContentView(new GameView(this));
     }

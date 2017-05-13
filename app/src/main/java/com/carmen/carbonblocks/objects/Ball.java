@@ -13,99 +13,67 @@ import com.carmen.carbonblocks.Constants;
  */
 
 public class Ball implements GameObject {
-    private Circle circle;
-    private float radius;
-    private float dx, dy;     // Direction
+    private float x, y;       // Position
     private float vx, vy;     // Velocity
+    private float radius;
+    private int color;
 
-    private GameRect bottomBar;
-    private BlockManager blockManager;
+    public float getX() { return this.x; }
+    public float getY() { return this.y; }
+    public void setX(float x) { this.x = x; }
+    public void setY(float y) { this.y = y; }
 
-    public Circle getCircle() { return this.circle; }
+    public float getVx() { return this.vx; }
+    public float getVy() { return this.vy; }
     public void setVx(float vx) { this.vx = vx; }
     public void setVy(float vy) { this.vy = vy; }
 
-    public Ball(float x, float y, float radius, int color, GameRect bottomBar, BlockManager blockManager) {
-        circle = new Circle(x, y, radius, color);
-        this.dx = 0;
-        this.dy = 0;
-        this.vx = 1;
-        this.vy = -2;
+    public void flipVx() { this.vx *= -1; }
+    public void flipVy() { this.vy *= -1; }
+    public float getRadius() { return this.radius; }
 
+    public void increaseX() {
+        this.x += vx;
+    }
+
+    public void increaseY() {
+        this.y += vy;
+    }
+
+    public Ball(float x, float y, float radius, int color) {
+        this.x = x;
+        this.y = y;
+        this.vx = 0;
+        this.vy = 0;
         this.radius = radius;
-
-        this.bottomBar = bottomBar;
-        this.blockManager = blockManager;
+        this.color = color;
     }
 
     @Override
     public void draw(Canvas canvas) {
-        circle.draw(canvas);
+        Paint paint = new Paint();
+        paint.setColor(this.color);
+        canvas.drawCircle(x, y, radius, paint);
+    }
+
+    public boolean contains(float xp, float yp) {
+        double d = Math.sqrt(
+                Math.pow(xp - x, 2) + Math.pow(yp - y, 2)
+        );
+
+        return d < radius;
     }
 
     @Override
     public void update() {
-        checkWallCollisions();
-        checkBlockCollisions();
+
     }
 
     public void releaseBall(float tx, float ty, double theta) {
-        this.dx = tx > 0 ? -1 : 1;
-        this.dy = ty > 0 ? -1 : 1;
-        System.out.println("dx: " + dx + "\t dy: " + dy);
+        float dx = tx > 0 ? -1 : 1;
+        float dy = ty > 0 ? -1 : 1;
         this.vx = ((float)(Math.abs(Math.cos(theta)) * Constants.BALL_VELOCITY)) * dx;
         this.vy = ((float)(Math.abs(Math.sin(theta)) * Constants.BALL_VELOCITY)) * dy;
-    }
-
-    private void checkBlockCollisions() {
-        float oldVx = vx;
-        float oldVy = vy;
-        for(Block block : blockManager.getBlocks()) {
-            checkBlockCollision(block.getGameRect().getRectangle());
-        }
-        if(vx == oldVx) {
-            this.circle.increaseX(vx);
-        }
-
-        if(vy == oldVy) {
-            this.circle.increaseY(vy);
-        }
-    }
-
-    private void checkBlockCollision(Rect rect) {
-        if(collidesWithBlock(circle.x + vx, circle.y, rect.left, rect.top)) {
-            vx *= -1;
-        }
-
-        if(collidesWithBlock(circle.x, circle.y + vy, rect.left, rect.top)) {
-            vy *= -1;
-        }
-    }
-
-    private boolean collidesWithBlock(float circleX, float circleY, float blockX, float blockY) {
-        float halfBlock = Constants.BLOCK_SIZE / 2;
-        float distX = Math.abs(circleX - blockX - halfBlock);
-        float distY = Math.abs(circleY - blockY - halfBlock);
-
-        if (distX > (halfBlock + circle.radius)) { return false; }
-        if (distY > (halfBlock + circle.radius)) { return false; }
-
-        if (distX <= (halfBlock)) { return true; }
-        if (distY <= (halfBlock)) { return true; }
-
-        float dx = distX - halfBlock;
-        float dy = distY - halfBlock;
-        return (dx*dx + dy*dy <= (circle.radius * circle.radius));
-    }
-
-    private void checkWallCollisions() {
-        if(circle.x - circle.radius <= 0 || circle.x + circle.radius >= Constants.SCREEN_WIDTH) {
-            this.vx *= -1;
-        }
-
-        if(circle.y - circle.radius <= 0 || circle.y + circle.radius >= bottomBar.getRectangle().top) {
-            this.vy *= -1;
-        }
     }
 }
 

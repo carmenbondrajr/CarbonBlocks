@@ -14,8 +14,8 @@ import com.carmen.carbonblocks.objects.*;
 public class GameScene implements Scene {
     private GameRect bottomBar;
     private Ball ball;
-    private Tracer tracer;
     private BlockManager blockManager;
+    private BoardManager boardManager;
 
     private boolean activeVolley = false;
     private boolean isDragging = false;
@@ -24,27 +24,23 @@ public class GameScene implements Scene {
     public GameScene() {
         bottomBar = new GameRect(0, Constants.BALL_START_Y + Constants.BALL_SIZE + 1, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Constants.BOTTOM_BAR_COLOR);
         blockManager = new BlockManager();
-        ball = new Ball(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 200, Constants.BALL_SIZE, Constants.BALL_COLOR, bottomBar, blockManager);
-        tracer = new Tracer(ball.getCircle().getX(), ball.getCircle().getY(), 10, Color.GRAY);
+        ball = new Ball(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 200, Constants.BALL_SIZE, Constants.BALL_COLOR);
 
-        blockManager.generateBlocks();
+        boardManager = new BoardManager(ball, blockManager, bottomBar);
     }
 
     @Override
     public void update() {
         if(activeVolley) {
-            ball.update();
+            boardManager.checkCollisions();
         }
     }
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawColor(Constants.BACKGROUND_COLOR);
-        bottomBar.draw(canvas);
-        ball.draw(canvas);
-        blockManager.draw(canvas);
+        boardManager.draw(canvas);
         if(isDragging) {
-            tracer.draw(canvas);
+            // draw tracer
         }
     }
 
@@ -66,7 +62,7 @@ public class GameScene implements Scene {
             case MotionEvent.ACTION_MOVE:
                 // move and display tracer
                 theta = calculateTheta(event);
-                tracer.setRotate(theta);
+                //tracer.setRotate(theta);
                 break;
             case MotionEvent.ACTION_UP:
                 if(isDragging) {
@@ -79,8 +75,8 @@ public class GameScene implements Scene {
     }
 
     private void reset() {
-        ball.getCircle().setX(Constants.SCREEN_WIDTH / 2);
-        ball.getCircle().setY(Constants.BALL_START_Y);
+        ball.setX(Constants.SCREEN_WIDTH / 2);
+        ball.setY(Constants.BALL_START_Y);
         ball.setVx(0);
         ball.setVy(0);
         activeVolley = false;
@@ -89,12 +85,12 @@ public class GameScene implements Scene {
     }
 
     private float calculateTheta(MotionEvent e) {
-        dx = e.getX() - ball.getCircle().getX();
-        dy = e.getY() - ball.getCircle().getY();
+        dx = e.getX() - ball.getX();
+        dy = e.getY() - ball.getY();
         return (float)Math.atan(dy/dx);
     }
 
     private boolean isTouchingBall(MotionEvent e) {
-        return ball.getCircle().contains((int)e.getX(), (int)e.getY());
+        return ball.contains((int)e.getX(), (int)e.getY());
     }
 }

@@ -1,8 +1,8 @@
 package com.carmen.carbonblocks.objects;
 
 import android.graphics.Canvas;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
-import android.graphics.Rect;
 
 /**
  * Created by carmen on 5/1/2017.
@@ -11,36 +11,43 @@ import android.graphics.Rect;
 public class Tracer implements GameObject {
     private float ballX, ballY;
     private float x, y;
-    private int color;
-    private double rotate;
+    private Paint paint;
 
-    public void setRotate(double rotate) { this.rotate = rotate; }
     public void setX(float x) { this.x = x; }
     public void setY(float y) { this.y = y; }
 
-    public Tracer(float ballX, float ballY, int thickness, int color) {
+    private void configure(int color, float thickness){
+        if(paint == null) {
+            paint = new Paint();
+        }
+        paint.setAntiAlias(true);
+        paint.setColor(color);
+        paint.setStrokeWidth(thickness);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setPathEffect(new DashPathEffect(new float[]{20, 50}, 0));
+    }
+
+    public Tracer(float ballX, float ballY, int color, float thickness) {
+        configure(color, thickness);
         this.ballX = ballX;
         this.ballY = ballY;
-        this.color = color;
+        this.x = ballX;
+        this.y = ballY;
     }
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.save();
-        canvas.rotate(-(float)rotate, this.ballX, this.ballY);
-        Paint paint = new Paint();
-        paint.setColor(this.color);
-        canvas.drawRect(
-                ballX,
-                y,
-                x,
-                y
-                , paint);
-        canvas.restore();
+        canvas.drawLine(x, y, ballX, ballY, paint);
     }
 
     @Override
     public void update() {
 
+    }
+
+    public void reset() {
+        x = ballX;
+        y = ballY;
     }
 }

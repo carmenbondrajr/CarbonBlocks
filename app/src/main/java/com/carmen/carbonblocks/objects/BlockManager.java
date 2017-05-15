@@ -54,7 +54,7 @@ public class BlockManager implements GameObject {
 
     public void advanceBlocks() {
         for(Block block : blocks) {
-            block.getGameRect().increaseY(Constants.BLOCK_SIZE + Constants.BLOCK_GAP);
+            block.increaseY(Constants.BLOCK_SIZE + Constants.BLOCK_GAP);
         }
     }
 

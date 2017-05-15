@@ -11,12 +11,12 @@ import com.carmen.carbonblocks.Constants;
 public class BoardManager implements GameObject {
     private Ball ball;
     private BlockManager blockManager;
-    private GameRect bottomBar;
+    private DeadZone deadZone;
 
-    public BoardManager(Ball ball, BlockManager blockManager, GameRect bottomBar) {
+    public BoardManager(Ball ball, BlockManager blockManager, DeadZone deadZone) {
         this.ball = ball;
         this.blockManager = blockManager;
-        this.bottomBar = bottomBar;
+        this.deadZone = deadZone;
     }
 
     public void checkCollisions() {
@@ -44,13 +44,12 @@ public class BoardManager implements GameObject {
     private void checkBlockCollision(Block block) {
         boolean collision = false;
 
-        GameRect gameRect = block.getGameRect();
-        if(collidesWithBlock(ball.getX() + ball.getVx(), ball.getY(), ball.getRadius(), gameRect.getX(), gameRect.getY())) {
+        if(collidesWithBlock(ball.getX() + ball.getVx(), ball.getY(), ball.getRadius(), block.getX(), block.getY())) {
             ball.flipVx();
             collision = true;
         }
 
-        if(collidesWithBlock(ball.getX(), ball.getY() + ball.getVy(), ball.getRadius(), gameRect.getX(), gameRect.getY())) {
+        if(collidesWithBlock(ball.getX(), ball.getY() + ball.getVy(), ball.getRadius(), block.getX(), block.getY())) {
             ball.flipVy();
             collision = true;
         }
@@ -81,7 +80,7 @@ public class BoardManager implements GameObject {
             ball.flipVx();
         }
 
-        if(ball.getY() - ball.getRadius() <= 0 || ball.getY() + ball.getRadius() >= bottomBar.getY()) {
+        if(ball.getY() - ball.getRadius() <= 0 || ball.getY() + ball.getRadius() >= deadZone.getY()) {
             ball.flipVy();
         }
     }
@@ -89,7 +88,7 @@ public class BoardManager implements GameObject {
     @Override
     public void draw(Canvas canvas) {
         canvas.drawColor(Constants.BACKGROUND_COLOR);
-        bottomBar.draw(canvas);
+        deadZone.draw(canvas);
         ball.draw(canvas);
         blockManager.draw(canvas);
     }

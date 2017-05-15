@@ -11,29 +11,47 @@ import com.carmen.carbonblocks.Constants;
  */
 
 public class Block implements GameObject {
-    private GameRect gameRect;
+    private float x, y;
     private int health;
+    private Paint paint, textPaint;
 
-    public GameRect getGameRect() { return this.gameRect; }
+    public float getX() { return this.x; }
+    public float getY() { return this.y; }
+    public void increaseY(float dy) {
+        this.y += dy;
+    }
     public int getHealth() { return this.health; }
     public void decreaseHealth() { this.health--; }
 
-    public Block(int x, int y, int color, int health) {
-        gameRect = new GameRect(x, y, Constants.BLOCK_SIZE, Constants.BLOCK_SIZE, color);
+    private void configure(int color) {
+        if(paint == null) {
+            paint = new Paint();
+        }
+        if(textPaint == null) {
+            textPaint = new Paint();
+        }
+        paint.setAntiAlias(true);
+        paint.setColor(color);
+
+        textPaint.setTextSize(60);
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+    }
+
+    public Block(float x, float y, int color, int health) {
+        configure(color);
+        this.x = x;
+        this.y = y;
         this.health = health;
     }
 
     @Override
     public void draw(Canvas canvas) {
-        gameRect.draw(canvas);
-        Paint paint = new Paint();
-        paint.setTextSize(60);
-        paint.setColor(Color.BLACK);
-        paint.setTextAlign(Paint.Align.CENTER);
-        float textY = gameRect.getY() + (Constants.BLOCK_SIZE / 2) + (paint.getTextSize() / 3);
+        canvas.drawRect(x, y, x + Constants.BLOCK_SIZE, y + Constants.BLOCK_SIZE, paint);
 
-        canvas.drawText("" + this.health, gameRect.getX() + Constants.BLOCK_SIZE / 2,
-                textY, paint);
+        float textY = y + (Constants.BLOCK_SIZE / 2) + (paint.getTextSize() / 3);
+        canvas.drawText("" + this.health, x + Constants.BLOCK_SIZE / 2,
+                textY, textPaint);
     }
 
     @Override

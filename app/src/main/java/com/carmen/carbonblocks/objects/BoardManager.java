@@ -27,11 +27,9 @@ public class BoardManager implements GameObject {
     private void checkBlockCollisions() {
         float oldVx = ball.getVx();
         float oldVy = ball.getVy();
-        for(Block[] row : blockManager.getBlocks()) {
-            for(Block block : row) {
-                if(block != null) {
-                    checkBlockCollision(block.getGameRect());
-                }
+        for(Block block : blockManager.getBlocks()) {
+            if(block != null) {
+                checkBlockCollision(block);
             }
         }
         if(ball.getVx() == oldVx) {
@@ -43,13 +41,22 @@ public class BoardManager implements GameObject {
         }
     }
 
-    private void checkBlockCollision(GameRect gameRect) {
+    private void checkBlockCollision(Block block) {
+        boolean collision = false;
+
+        GameRect gameRect = block.getGameRect();
         if(collidesWithBlock(ball.getX() + ball.getVx(), ball.getY(), ball.getRadius(), gameRect.getX(), gameRect.getY())) {
             ball.flipVx();
+            collision = true;
         }
 
         if(collidesWithBlock(ball.getX(), ball.getY() + ball.getVy(), ball.getRadius(), gameRect.getX(), gameRect.getY())) {
             ball.flipVy();
+            collision = true;
+        }
+
+        if(collision) {
+            blockManager.damageBlock(block);
         }
     }
 

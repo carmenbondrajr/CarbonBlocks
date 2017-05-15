@@ -27,5 +27,5 @@ public class Constants {
     public static int BLOCKS_PER_ROW = 8;
     public static int BLOCK_GAP = 12;
     public static int BLOCK_START_X;
-    public static int BLOCK_START_Y = 100;
+    public static int BLOCK_START_Y = 120;
 }

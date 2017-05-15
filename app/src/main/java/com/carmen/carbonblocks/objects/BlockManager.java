@@ -6,6 +6,7 @@ import android.graphics.Color;
 import com.carmen.carbonblocks.Constants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -14,56 +15,60 @@ import java.util.Random;
  */
 
 public class BlockManager implements GameObject {
-    private ArrayList<Block[]> blocks;
+    private ArrayList<Block> blocks;
     Random rand;
 
-    public ArrayList<Block[]> getBlocks() { return this.blocks; }
+    public ArrayList<Block> getBlocks() { return this.blocks; }
 
     public BlockManager() {
         blocks = new ArrayList<>();
         rand = new Random();
 
-        generateNewRow();
-        advanceRows();
-        generateNewRow();
+        generateNewRow(1);
+        advanceBlocks();
+        generateNewRow(1);
     }
 
-    public void generateNewRow() {
+    public void generateNewRow(int baseHealth) {
         int numBlocks = rand.nextInt(3) + 1;
 
-        Block[] row = new Block[Constants.BLOCKS_PER_ROW];
+        boolean[] columnOccupied = new boolean[Constants.BLOCKS_PER_ROW];
+        ArrayList<Block> row = new ArrayList<>();
 
         for(int i = 0; i < numBlocks; i++) {
             int col = rand.nextInt(Constants.BLOCKS_PER_ROW);
-            while(row[col] != null) {
+            while(columnOccupied[col]) {
                 col = rand.nextInt(Constants.BLOCKS_PER_ROW);
             }
 
+            int mod = rand.nextInt(3);
+            int health = baseHealth + mod;
+
             int startX = (col * Constants.BLOCK_GAP) + (col * Constants.BLOCK_SIZE) + Constants.BLOCK_START_X;
-            Block block = new Block(startX, Constants.BLOCK_START_Y, Color.CYAN);
-            row[i] = block;
+            Block block = new Block(startX, Constants.BLOCK_START_Y, Color.CYAN, health);
+            row.add(block);
+            columnOccupied[i] = true;
         }
-        blocks.add(row);
+        blocks.addAll(row);
     }
 
-    public void advanceRows() {
-        for(Block[] row : blocks) {
-            for(Block block : row) {
-                if(block != null) {
-                    block.getGameRect().increaseY(Constants.BLOCK_SIZE + Constants.BLOCK_GAP);
-                }
-            }
+    public void advanceBlocks() {
+        for(Block block : blocks) {
+            block.getGameRect().increaseY(Constants.BLOCK_SIZE + Constants.BLOCK_GAP);
+        }
+    }
+
+    public void damageBlock(Block block) {
+        block.decreaseHealth();
+        if(block.getHealth() == 0) {
+            this.blocks.remove(block);
         }
     }
 
     @Override
     public void draw(Canvas canvas) {
-        for (Block[] row : blocks) {
-            for(Block block : row) {
-                if(block != null) {
-                    block.draw(canvas);
-                }
-            }
+        for(Block block : blocks) {
+            block.draw(canvas);
         }
     }
 

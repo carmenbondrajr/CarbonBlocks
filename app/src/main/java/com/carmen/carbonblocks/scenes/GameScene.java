@@ -1,11 +1,14 @@
 package com.carmen.carbonblocks.scenes;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.view.MotionEvent;
 
 import com.carmen.carbonblocks.Constants;
-import com.carmen.carbonblocks.objects.*;
+import com.carmen.carbonblocks.objects.Ball;
+import com.carmen.carbonblocks.objects.BlockManager;
+import com.carmen.carbonblocks.objects.BoardManager;
+import com.carmen.carbonblocks.objects.GameRect;
+import com.carmen.carbonblocks.objects.Tracer;
 
 /**
  * Created by carmen on 5/1/2017.
@@ -16,6 +19,7 @@ public class GameScene implements Scene {
     private Ball ball;
     private BlockManager blockManager;
     private BoardManager boardManager;
+    private Tracer tracer;
 
     private boolean activeVolley = false;
     private boolean isDragging = false;
@@ -25,7 +29,7 @@ public class GameScene implements Scene {
         bottomBar = new GameRect(0, Constants.BALL_START_Y + Constants.BALL_SIZE + 1, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Constants.BOTTOM_BAR_COLOR);
         blockManager = new BlockManager();
         ball = new Ball(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 200, Constants.BALL_SIZE, Constants.BALL_COLOR);
-
+        tracer = new Tracer(Constants.SCREEN_WIDTH / 2, Constants.BALL_START_Y, Constants.BALL_COLOR, Constants.BALL_SIZE / 2);
         boardManager = new BoardManager(ball, blockManager, bottomBar);
     }
 
@@ -40,7 +44,7 @@ public class GameScene implements Scene {
     public void draw(Canvas canvas) {
         boardManager.draw(canvas);
         if(isDragging) {
-            // draw tracer
+            tracer.draw(canvas);
         }
     }
 
@@ -53,25 +57,30 @@ public class GameScene implements Scene {
     public void receiveTouch(MotionEvent event) {
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if(!activeVolley && isTouchingBall(event)) {
+                if(!activeVolley && validPosition(event)) {
                     isDragging = true;
                 } else {
                     reset();
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                // move and display tracer
-                theta = calculateTheta(event);
-                //tracer.setRotate(theta);
+                if(validPosition(event)) {
+                    tracer.setX(event.getX());
+                    tracer.setY(event.getY());
+                    theta = calculateTheta(event);
+                } else {
+                    tracer.reset();
+                }
                 break;
             case MotionEvent.ACTION_UP:
-                if(isDragging) {
+                if(isDragging && validPosition(event)) {
                     ball.releaseBall(dx, dy, theta);
                     activeVolley = true;
                     isDragging = false;
                 }
                 break;
         }
+
     }
 
     private void reset() {
@@ -85,12 +94,17 @@ public class GameScene implements Scene {
     }
 
     private float calculateTheta(MotionEvent e) {
-        dx = e.getX() - ball.getX();
-        dy = e.getY() - ball.getY();
+        dx = ball.getX() - e.getX();
+        dy = ball.getY() - e.getY();
         return (float)Math.atan(dy/dx);
     }
 
-    private boolean isTouchingBall(MotionEvent e) {
-        return ball.contains((int)e.getX(), (int)e.getY());
+    private boolean validPosition(MotionEvent e) {
+        if(e.getY() < ball.getY()){
+            return true;
+        }
+        return false;
+
+
     }
 }

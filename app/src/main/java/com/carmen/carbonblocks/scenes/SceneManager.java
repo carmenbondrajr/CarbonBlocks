@@ -3,10 +3,6 @@ package com.carmen.carbonblocks.scenes;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
-import com.carmen.carbonblocks.scenes.GameScene;
-import com.carmen.carbonblocks.scenes.MenuScene;
-import com.carmen.carbonblocks.scenes.Scene;
-
 import java.util.ArrayList;
 
 /**

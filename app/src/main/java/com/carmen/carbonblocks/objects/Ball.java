@@ -1,10 +1,7 @@
 package com.carmen.carbonblocks.objects;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.Rect;
 
 import com.carmen.carbonblocks.Constants;
 
@@ -54,14 +51,6 @@ public class Ball implements GameObject {
         Paint paint = new Paint();
         paint.setColor(this.color);
         canvas.drawCircle(x, y, radius, paint);
-    }
-
-    public boolean contains(float xp, float yp) {
-        double d = Math.sqrt(
-                Math.pow(xp - x, 2) + Math.pow(yp - y, 2)
-        );
-
-        return d < radius;
     }
 
     @Override

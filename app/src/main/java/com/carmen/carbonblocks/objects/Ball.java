@@ -57,12 +57,5 @@ public class Ball implements GameObject {
     public void update() {
 
     }
-
-    public void releaseBall(float tx, float ty, double theta) {
-        float dx = tx > 0 ? -1 : 1;
-        float dy = ty > 0 ? -1 : 1;
-        this.vx = ((float)(Math.abs(Math.cos(theta)) * Constants.BALL_VELOCITY)) * dx;
-        this.vy = ((float)(Math.abs(Math.sin(theta)) * Constants.BALL_VELOCITY)) * dy;
-    }
 }
 

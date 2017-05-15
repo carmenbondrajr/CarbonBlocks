@@ -72,7 +72,7 @@ public class GameScene implements Scene {
                 break;
             case MotionEvent.ACTION_UP:
                 if(isDragging && validPosition(event)) {
-                    ball.releaseBall(dx, dy, theta);
+                    boardManager.releaseBall(dx, dy, theta);
                     activeVolley = true;
                     isDragging = false;
                 }

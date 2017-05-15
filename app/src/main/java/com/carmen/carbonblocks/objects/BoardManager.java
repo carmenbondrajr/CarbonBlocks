@@ -85,6 +85,15 @@ public class BoardManager implements GameObject {
         }
     }
 
+    public void releaseBall(float tx, float ty, double theta) {
+        float dx = tx > 0 ? -1 : 1;
+        float dy = ty > 0 ? -1 : 1;
+        float vx = ((float)(Math.abs(Math.cos(theta)) * Constants.BALL_VELOCITY)) * dx;
+        float vy = ((float)(Math.abs(Math.sin(theta)) * Constants.BALL_VELOCITY)) * dy;
+        ball.setVx(vx);
+        ball.setVy(vy);
+    }
+
     @Override
     public void draw(Canvas canvas) {
         canvas.drawColor(Constants.BACKGROUND_COLOR);

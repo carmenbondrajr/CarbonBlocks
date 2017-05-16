@@ -29,11 +29,15 @@ public class BoardManager {
     private void checkBlockCollisions() {
         float oldVx = ball.getVx();
         float oldVy = ball.getVy();
+
         for(Block block : blockManager.getBlocks()) {
             if(block != null) {
-                checkBlockCollision(block);
+                if(checkBlockCollision(block)) {
+                    break;
+                }
             }
         }
+
         if(ball.getVx() == oldVx) {
             this.ball.increaseX();
         }
@@ -43,7 +47,7 @@ public class BoardManager {
         }
     }
 
-    private void checkBlockCollision(Block block) {
+    private boolean checkBlockCollision(Block block) {
         boolean collision = false;
 
         if(collidesWithBlock(ball.getX() + ball.getVx(), ball.getY(), ball.getRadius(), block.getX(), block.getY())) {
@@ -59,6 +63,8 @@ public class BoardManager {
         if(collision) {
             blockManager.damageBlock(block);
         }
+
+        return collision;
     }
 
     private boolean collidesWithBlock(float circleX, float circleY, float circleRadius, float blockX, float blockY) {

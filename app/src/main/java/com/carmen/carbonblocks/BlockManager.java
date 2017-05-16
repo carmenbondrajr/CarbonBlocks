@@ -25,13 +25,17 @@ public class BlockManager {
         blocks = new ArrayList<>();
         rand = new Random();
 
-        generateNewRow(1);
-        advanceBlocks();
-        generateNewRow(1);
+        initializeBoard();
     }
 
-    public void generateNewRow(int baseHealth) {
-        int numBlocks = rand.nextInt(3) + 1;
+    private void initializeBoard() {
+        generateNewRow(8, 1);
+        advanceBlocks();
+        generateNewRow(8, 1);
+    }
+
+    public void generateNewRow(int baseNumBlocks, int baseHealth) {
+        int numBlocks = rand.nextInt(baseNumBlocks) + 1;
 
         boolean[] columnOccupied = new boolean[Constants.BLOCKS_PER_ROW];
         ArrayList<Block> row = new ArrayList<>();
@@ -41,14 +45,13 @@ public class BlockManager {
             while(columnOccupied[col]) {
                 col = rand.nextInt(Constants.BLOCKS_PER_ROW);
             }
-
             int mod = rand.nextInt(3);
             int health = baseHealth + mod;
 
             int startX = (col * Constants.BLOCK_GAP) + (col * Constants.BLOCK_SIZE) + Constants.BLOCK_START_X;
             Block block = new Block(startX, Constants.BLOCK_START_Y, Color.CYAN, health);
             row.add(block);
-            columnOccupied[i] = true;
+            columnOccupied[col] = true;
         }
         blocks.addAll(row);
     }
@@ -59,11 +62,14 @@ public class BlockManager {
         }
     }
 
-    public void damageBlock(Block block) {
-        block.decreaseHealth();
-        if(block.getHealth() == 0) {
-            this.blocks.remove(block);
+    public void removeDeadBlocks() {
+        ArrayList<Block> dead = new ArrayList<>();
+        for(Block block : blocks) {
+            if(block.getHealth() <= 0) {
+                dead.add(block);
+            }
         }
+        blocks.removeAll(dead);
     }
 
     public void drawBlocks(Canvas canvas) {

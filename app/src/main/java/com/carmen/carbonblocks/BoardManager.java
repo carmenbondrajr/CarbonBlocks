@@ -31,10 +31,9 @@ public class BoardManager {
         float oldVy = ball.getVy();
 
         for(Block block : blockManager.getBlocks()) {
-            if(block != null) {
-                if(checkBlockCollision(block)) {
-                    break;
-                }
+            if(checkBlockCollision(block)) {
+                block.decreaseHealth();
+                break;
             }
         }
 
@@ -58,10 +57,6 @@ public class BoardManager {
         if(collidesWithBlock(ball.getX(), ball.getY() + ball.getVy(), ball.getRadius(), block.getX(), block.getY())) {
             ball.flipVy();
             collision = true;
-        }
-
-        if(collision) {
-            blockManager.damageBlock(block);
         }
 
         return collision;

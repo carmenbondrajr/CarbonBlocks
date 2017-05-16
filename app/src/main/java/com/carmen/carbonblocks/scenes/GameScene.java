@@ -37,6 +37,7 @@ public class GameScene implements Scene {
     public void update() {
         if(activeVolley) {
             boardManager.checkCollisions();
+            blockManager.removeDeadBlocks();
         }
     }
 

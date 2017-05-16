@@ -30,9 +30,7 @@ public class DeadZone implements GameObject {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        canvas.drawRect(x, y, x + width, y + height, paint);
-    }
+    public void draw(Canvas canvas) { canvas.drawRect(x, y, x + width, y + height, paint); }
 
     @Override
     public void update() {

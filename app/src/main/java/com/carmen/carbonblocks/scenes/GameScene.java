@@ -3,6 +3,8 @@ package com.carmen.carbonblocks.scenes;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
+import com.carmen.carbonblocks.BlockManager;
+import com.carmen.carbonblocks.BoardManager;
 import com.carmen.carbonblocks.Constants;
 import com.carmen.carbonblocks.objects.*;
 
@@ -40,7 +42,7 @@ public class GameScene implements Scene {
 
     @Override
     public void draw(Canvas canvas) {
-        boardManager.draw(canvas);
+        boardManager.drawBoard(canvas);
         if(isDragging) {
             tracer.draw(canvas);
         }

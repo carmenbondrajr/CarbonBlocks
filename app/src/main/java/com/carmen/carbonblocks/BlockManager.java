@@ -1,9 +1,10 @@
-package com.carmen.carbonblocks.objects;
+package com.carmen.carbonblocks;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 
 import com.carmen.carbonblocks.Constants;
+import com.carmen.carbonblocks.objects.Block;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +15,7 @@ import java.util.Random;
  * Created by carmen on 5/3/2017.
  */
 
-public class BlockManager implements GameObject {
+public class BlockManager {
     private ArrayList<Block> blocks;
     Random rand;
 
@@ -65,15 +66,9 @@ public class BlockManager implements GameObject {
         }
     }
 
-    @Override
-    public void draw(Canvas canvas) {
+    public void drawBlocks(Canvas canvas) {
         for(Block block : blocks) {
             block.draw(canvas);
         }
-    }
-
-    @Override
-    public void update() {
-
     }
 }

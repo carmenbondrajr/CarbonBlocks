@@ -49,7 +49,7 @@ public class Block implements GameObject {
     public void draw(Canvas canvas) {
         canvas.drawRect(x, y, x + Constants.BLOCK_SIZE, y + Constants.BLOCK_SIZE, paint);
 
-        float textY = y + (Constants.BLOCK_SIZE / 2) + (paint.getTextSize() / 3);
+        float textY = y + (Constants.BLOCK_SIZE / 2) + (paint.getTextSize() / 2);
         canvas.drawText("" + this.health, x + Constants.BLOCK_SIZE / 2,
                 textY, textPaint);
     }

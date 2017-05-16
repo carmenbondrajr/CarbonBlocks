@@ -3,8 +3,6 @@ package com.carmen.carbonblocks.objects;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.carmen.carbonblocks.Constants;
-
 /**
  * Created by carmen on 5/1/2017.
  */
@@ -13,7 +11,7 @@ public class Ball implements GameObject {
     private float x, y;       // Position
     private float vx, vy;     // Velocity
     private float radius;
-    private int color;
+    private Paint paint;
 
     public float getX() { return this.x; }
     public float getY() { return this.y; }
@@ -37,21 +35,24 @@ public class Ball implements GameObject {
         this.y += vy;
     }
 
+    private void configure(int color) {
+        if(paint == null) {
+            paint = new Paint();
+        }
+        paint.setColor(color);
+    }
+
     public Ball(float x, float y, float radius, int color) {
+        configure(color);
         this.x = x;
         this.y = y;
         this.vx = 0;
         this.vy = 0;
         this.radius = radius;
-        this.color = color;
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(this.color);
-        canvas.drawCircle(x, y, radius, paint);
-    }
+    public void draw(Canvas canvas) { canvas.drawCircle(x, y, radius, paint); }
 
     @Override
     public void update() {

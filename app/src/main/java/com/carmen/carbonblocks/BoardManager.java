@@ -1,14 +1,16 @@
-package com.carmen.carbonblocks.objects;
+package com.carmen.carbonblocks;
 
 import android.graphics.Canvas;
 
-import com.carmen.carbonblocks.Constants;
+import com.carmen.carbonblocks.objects.Ball;
+import com.carmen.carbonblocks.objects.Block;
+import com.carmen.carbonblocks.objects.DeadZone;
 
 /**
  * Created by carmen on 5/13/2017.
  */
 
-public class BoardManager implements GameObject {
+public class BoardManager {
     private Ball ball;
     private BlockManager blockManager;
     private DeadZone deadZone;
@@ -94,16 +96,10 @@ public class BoardManager implements GameObject {
         ball.setVy(vy);
     }
 
-    @Override
-    public void draw(Canvas canvas) {
+    public void drawBoard(Canvas canvas) {
         canvas.drawColor(Constants.BACKGROUND_COLOR);
         deadZone.draw(canvas);
         ball.draw(canvas);
-        blockManager.draw(canvas);
-    }
-
-    @Override
-    public void update() {
-
+        blockManager.drawBlocks(canvas);
     }
 }

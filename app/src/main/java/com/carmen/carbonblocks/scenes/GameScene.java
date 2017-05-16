@@ -22,6 +22,8 @@ public class GameScene implements Scene {
     private boolean isDragging = false;
     private float dx, dy, theta;
 
+    private int numBalls = 1;
+
     public GameScene() {
         float deadZoneY = Constants.BALL_START_Y + Constants.BALL_SIZE + 1;
         float deadZoneHeight = Constants.SCREEN_HEIGHT - deadZoneY;
@@ -123,6 +125,8 @@ public class GameScene implements Scene {
         activeVolley = false;
         tracer.setBallX(ball.getX());
         tracer.setBallY(ball.getY());
+        blockManager.advanceBlocks();
+        blockManager.generateNewRow(numBalls);
     }
 
     private boolean validPosition(MotionEvent e) {

@@ -29,13 +29,13 @@ public class BlockManager {
     }
 
     private void initializeBoard() {
-        generateNewRow(8, 1);
+        generateNewRow(1);
         advanceBlocks();
-        generateNewRow(8, 1);
+        generateNewRow(1);
     }
 
-    public void generateNewRow(int baseNumBlocks, int baseHealth) {
-        int numBlocks = rand.nextInt(baseNumBlocks) + 1;
+    public void generateNewRow(int baseHealth) {
+        int numBlocks = rand.nextInt(4) + 1;
 
         boolean[] columnOccupied = new boolean[Constants.BLOCKS_PER_ROW];
         ArrayList<Block> row = new ArrayList<>();

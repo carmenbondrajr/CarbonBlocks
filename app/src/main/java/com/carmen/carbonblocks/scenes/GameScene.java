@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 
 import com.carmen.carbonblocks.BlockManager;
-import com.carmen.carbonblocks.BoardManager;
+import com.carmen.carbonblocks.CollisionChecker;
 import com.carmen.carbonblocks.Constants;
 import com.carmen.carbonblocks.objects.*;
 
@@ -16,7 +16,6 @@ public class GameScene implements Scene {
     private DeadZone deadZone;
     private Ball ball;
     private BlockManager blockManager;
-    private BoardManager boardManager;
     private Tracer tracer;
 
     private boolean activeVolley = false;
@@ -30,20 +29,28 @@ public class GameScene implements Scene {
         blockManager = new BlockManager();
         ball = new Ball(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 200, Constants.BALL_SIZE, Constants.BALL_COLOR);
         tracer = new Tracer(Constants.SCREEN_WIDTH / 2, Constants.BALL_START_Y, Constants.BALL_COLOR, Constants.BALL_SIZE / 2);
-        boardManager = new BoardManager(ball, blockManager, deadZone);
     }
 
     @Override
     public void update() {
         if(activeVolley) {
-            boardManager.checkCollisions();
+            if(CollisionChecker.checkDeadZoneCollision(ball, deadZone)) {
+                endVolley();
+            } else {
+                CollisionChecker.checkWallCollisions(ball);
+                CollisionChecker.checkBlockCollisions(ball, blockManager.getBlocks());
+            }
             blockManager.removeDeadBlocks();
         }
     }
 
     @Override
     public void draw(Canvas canvas) {
-        boardManager.drawBoard(canvas);
+        canvas.drawColor(Constants.BACKGROUND_COLOR);
+        deadZone.draw(canvas);
+        ball.draw(canvas);
+        blockManager.drawBlocks(canvas);
+
         if(isDragging) {
             tracer.draw(canvas);
         }
@@ -75,13 +82,11 @@ public class GameScene implements Scene {
                 break;
             case MotionEvent.ACTION_UP:
                 if(isDragging && validPosition(event)) {
-                    boardManager.releaseBall(dx, dy, theta);
-                    activeVolley = true;
+                    startVolley(dx, dy, theta);
                     isDragging = false;
                 }
                 break;
         }
-
     }
 
     private void reset() {
@@ -92,12 +97,32 @@ public class GameScene implements Scene {
         activeVolley = false;
         isDragging = false;
         theta = 0;
+
+        tracer.setBallX(ball.getX());
+        tracer.setBallY(ball.getY());
     }
 
     private float calculateTheta(MotionEvent e) {
         dx = ball.getX() - e.getX();
         dy = ball.getY() - e.getY();
         return (float)Math.atan(dy/dx);
+    }
+
+    private void startVolley(float tx, float ty, double theta) {
+        float dx = tx > 0 ? -1 : 1;
+        float dy = ty > 0 ? -1 : 1;
+        float vx = ((float)(Math.abs(Math.cos(theta)) * Constants.BALL_VELOCITY)) * dx;
+        float vy = ((float)(Math.abs(Math.sin(theta)) * Constants.BALL_VELOCITY)) * dy;
+        ball.setVx(vx);
+        ball.setVy(vy);
+
+        activeVolley = true;
+    }
+
+    private void endVolley() {
+        activeVolley = false;
+        tracer.setBallX(ball.getX());
+        tracer.setBallY(ball.getY());
     }
 
     private boolean validPosition(MotionEvent e) {

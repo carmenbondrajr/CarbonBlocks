@@ -13,6 +13,8 @@ public class Tracer implements GameObject {
     private float x, y;
     private Paint paint;
 
+    public void setBallX(float ballX) { this.ballX = ballX; }
+    public void setBallY(float ballY) { this.ballY = ballY; }
     public void setX(float x) { this.x = x; }
     public void setY(float y) { this.y = y; }
 

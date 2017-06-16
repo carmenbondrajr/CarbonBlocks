@@ -20,6 +20,7 @@ public class BlockManager {
     Random rand;
 
     public ArrayList<Block> getBlocks() { return this.blocks; }
+    private int rowIndex;
 
     public BlockManager() {
         blocks = new ArrayList<>();
@@ -49,11 +50,12 @@ public class BlockManager {
             int health = baseHealth + mod;
 
             int startX = (col * Constants.BLOCK_GAP) + (col * Constants.BLOCK_SIZE) + Constants.BLOCK_START_X;
-            Block block = new Block(startX, Constants.BLOCK_START_Y, Color.CYAN, health);
+            Block block = new Block(startX, Constants.BLOCK_START_Y, Constants.ROW_COLORS[rowIndex], health);
             row.add(block);
             columnOccupied[col] = true;
         }
         blocks.addAll(row);
+        rowIndex = ++rowIndex % Constants.ROW_COLORS.length;
     }
 
     public void advanceBlocks() {

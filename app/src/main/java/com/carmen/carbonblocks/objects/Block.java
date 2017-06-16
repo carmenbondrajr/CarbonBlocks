@@ -3,6 +3,7 @@ package com.carmen.carbonblocks.objects;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
 import com.carmen.carbonblocks.Constants;
 
@@ -14,6 +15,7 @@ public class Block implements GameObject {
     private float x, y;
     private int health;
     private Paint paint, textPaint;
+    private final Rect textBounds = new Rect();
 
     public float getX() { return this.x; }
     public float getY() { return this.y; }
@@ -33,9 +35,8 @@ public class Block implements GameObject {
         paint.setAntiAlias(true);
         paint.setColor(color);
 
-        textPaint.setTextSize(60);
+        textPaint.setTextSize(Constants.BLOCK_TEXT_SIZE);
         textPaint.setColor(Color.BLACK);
-        textPaint.setTextAlign(Paint.Align.CENTER);
     }
 
     public Block(float x, float y, int color, int health) {
@@ -49,9 +50,11 @@ public class Block implements GameObject {
     public void draw(Canvas canvas) {
         canvas.drawRect(x, y, x + Constants.BLOCK_SIZE, y + Constants.BLOCK_SIZE, paint);
 
-        float textY = y + (Constants.BLOCK_SIZE / 2) + (paint.getTextSize() / 2);
-        canvas.drawText("" + this.health, x + Constants.BLOCK_SIZE / 2,
-                textY, textPaint);
+        float cx = this.x + (Constants.BLOCK_SIZE / 2);
+        float cy = this.y  + (Constants.BLOCK_SIZE / 2);
+        String text = "" + this.health;
+        textPaint.getTextBounds(text, 0, text.length(), textBounds);
+        canvas.drawText(text, cx - textBounds.exactCenterX(), cy - textBounds.exactCenterY(), textPaint);
     }
 
     @Override

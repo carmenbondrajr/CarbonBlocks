@@ -17,6 +17,7 @@ public class Constants {
     // GAME CONSTANTS
     public static int BACKGROUND_COLOR = Color.rgb(30, 30, 30);
     public static int BOTTOM_BAR_COLOR = Color.rgb(45, 45, 45);
+    public static int[] ROW_COLORS = {Color.RED, Color.rgb(255,140,0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(75,0,130), Color.rgb(238,130,238)};
 
     public static int BALL_SIZE = 20;
     public static int BALL_COLOR = Color.RED;
@@ -28,4 +29,5 @@ public class Constants {
     public static int BLOCK_GAP = 12;
     public static int BLOCK_START_X;
     public static int BLOCK_START_Y = 120;
+    public static int BLOCK_TEXT_SIZE = 65;
 }

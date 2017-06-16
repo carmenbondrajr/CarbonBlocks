@@ -15,12 +15,20 @@ public class Constants {
     public static int MAX_FPS = 30;
 
     // GAME CONSTANTS
-    public static int BACKGROUND_COLOR = Color.rgb(30, 30, 30);
-    public static int BOTTOM_BAR_COLOR = Color.rgb(45, 45, 45);
-    public static int[] ROW_COLORS = {Color.RED, Color.rgb(255,140,0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(75,0,130), Color.rgb(238,130,238)};
+    public static int BACKGROUND_COLOR = Color.rgb(38,50,56);
+    public static int BOTTOM_BAR_COLOR = Color.rgb(33, 33, 33);
+    public static int[] ROW_COLORS =
+            {Color.rgb(244,67,54),
+                Color.rgb(255,152,0),
+                Color.rgb(255,235,59),
+                Color.rgb(76,175,80),
+                Color.rgb(33,150,243),
+                Color.rgb(63,81,181),
+                Color.rgb(156,39,176)};
 
+    public static int TRACER_COLOR = Color.rgb(224,224,224);
     public static int BALL_SIZE = 20;
-    public static int BALL_COLOR = Color.RED;
+    public static int BALL_COLOR = Color.rgb(158,158,158);
     public static float BALL_VELOCITY = 40;
     public static int BALL_START_Y;
 
@@ -30,4 +38,5 @@ public class Constants {
     public static int BLOCK_START_X;
     public static int BLOCK_START_Y = 120;
     public static int BLOCK_TEXT_SIZE = 65;
+    public static int BLOCK_TEXT_COLOR = Color.rgb(33,33,33);
 }

@@ -36,7 +36,7 @@ public class Block implements GameObject {
         paint.setColor(color);
 
         textPaint.setTextSize(Constants.BLOCK_TEXT_SIZE);
-        textPaint.setColor(Color.BLACK);
+        textPaint.setColor(Constants.BLOCK_TEXT_COLOR);
     }
 
     public Block(float x, float y, int color, int health) {

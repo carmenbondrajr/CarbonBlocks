@@ -30,7 +30,7 @@ public class GameScene implements Scene {
         deadZone = new DeadZone(0, deadZoneY, Constants.SCREEN_WIDTH, deadZoneHeight, Constants.BOTTOM_BAR_COLOR);
         blockManager = new BlockManager();
         ball = new Ball(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 200, Constants.BALL_SIZE, Constants.BALL_COLOR);
-        tracer = new Tracer(Constants.SCREEN_WIDTH / 2, Constants.BALL_START_Y, Constants.BALL_COLOR, Constants.BALL_SIZE / 2);
+        tracer = new Tracer(Constants.SCREEN_WIDTH / 2, Constants.BALL_START_Y, Constants.TRACER_COLOR, Constants.BALL_SIZE / 2);
     }
 
     @Override
@@ -50,12 +50,12 @@ public class GameScene implements Scene {
     public void draw(Canvas canvas) {
         canvas.drawColor(Constants.BACKGROUND_COLOR);
         deadZone.draw(canvas);
-        ball.draw(canvas);
         blockManager.drawBlocks(canvas);
 
         if(isDragging) {
             tracer.draw(canvas);
         }
+        ball.draw(canvas);
     }
 
     @Override
